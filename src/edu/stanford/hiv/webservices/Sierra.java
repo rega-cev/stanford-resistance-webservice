@@ -202,10 +202,19 @@ public class Sierra {
 		// The key to call the Stanford service
 		String key = "";
 		String sequenceName = "";
+		
+		if (args.length < 2) {
+			System.err.println("Usage: rega_resistance_service.jar inputSequences.fasta outputInterpretation.csv");
+			System.exit(0);
+		}
+		
 		// The fasta file with sequences that you want to interpret
-		String inputFileLocation = "/Users/ewout/Documents/Rega_Algorithm/test.fasta";
+		String inputFileLocation = args[0];
+//		String inputFileLocation = "/Users/ewout/Documents/Rega_Algorithm/test.fasta";
 		// The csv that is parsed from the xml that we get back from Stanford
-		String outputFileLocation = "/Users/ewout/Documents/Rega_Algorithm/test.csv";
+		String outputFileLocation = args[1];
+//		String outputFileLocation = "/Users/ewout/Documents/Rega_Algorithm/test.csv";
+
 		
 		try {
 			Sierra sierra = new Sierra();

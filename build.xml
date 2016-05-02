@@ -1,0 +1,71 @@
+<project name="stanford_webservice" default="all" basedir=".">
+  <description>
+    stanford webservice build file
+  </description>
+  
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+  <property name="jars" location="jars"/>
+  
+  <property name="proj.name" value="stanford_webservice"/>
+  <property name="proj.version" value="0.1"/>
+
+<!--	<junit printsummary="yes" haltonfailure="yes">
+	    <classpath>
+	        <path refid="junit" />
+	        <fileset dir="${junit.dir}">
+	            <include name="**/junit.jar" />
+	        </fileset>
+	    </classpath>
+	    ...
+	</junit>-->
+	
+  <path id="project.classpath">
+    <fileset dir="jars">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="init" >
+    <mkdir dir="${build}"/>
+    <!--<mkdir dir="${build}/test/java"/>-->
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <target name="dist" depends="init" >
+    <javac 
+    	target="1.5" debug="on" 
+	   	srcdir="${src}"
+	   	destdir="${build}">
+      <classpath refid="project.classpath"/>
+    </javac>
+    
+    <copy todir="${build}">
+      <fileset dir="${src}">
+        <exclude name="**/*.java"/>
+      </fileset>
+    </copy>
+
+    <copy flatten="true" todir="${dist}/deps/">
+    	<fileset dir="jars"/>
+    </copy>
+
+  	<jar jarfile="${dist}/rega_resistance_service.jar" basedir="${build}">
+		<manifest>
+			<attribute name="Main-Class" value="edu.stanford.hiv.webservices.Sierra"/>
+		</manifest>
+		<zipgroupfileset dir="${jars}" includes="**/*.jar"/>
+  		
+   	</jar>
+    
+  	<delete dir="${dist}/deps/"/>
+  </target>
+	
+  <target name="clean">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+  <target name="all" depends="dist" />
+</project>
